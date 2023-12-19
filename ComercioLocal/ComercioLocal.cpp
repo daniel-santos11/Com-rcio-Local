@@ -212,5 +212,5 @@ int main()
 	else
 		cout << ("Produto nao encontrado\n");
 
-	produtos.listarProdutos();
+	produtos.listarProdutos(); 
 }
