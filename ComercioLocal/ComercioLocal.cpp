@@ -79,10 +79,11 @@ int main()
 		}
 		case 5: 
 		{
-			int codProduto, tam = 0, qtd, nif;
+			int codProduto, tam = 0;
 			string** carrinho = new string* [100];
 			do
 			{
+				int qtd;
 				cout << "insira o codigo do produto: (insira 0 se desejar terminar a compra)" << endl;
 				cin >> codProduto;
 				string* produto = encontrarProduto(produtos, quantidadeProdutos, codProduto);
@@ -105,8 +106,32 @@ int main()
 				carrinho[tam][3] = to_string(qtd);
 				tam++;
 			} while (codProduto != 0);
+			int nif;
 			cout << "insira o seu numero de contribuinte: ";
 			cin >> nif;
+			double valorTotal = 0;
+			for (int i = 0; i < tam; i++)
+			{
+				int qtd = stoi(carrinho[i][3]);
+				double preco = stod(carrinho[i][2]);
+				double valorSiva = (preco * 1,30);
+				double valorIva = (valorSiva * 1,23);
+				double valorTP = valorSiva * qtd;
+				valorTotal = valorTotal + valorTP;
+				cout << carrinho[i][1] << endl;
+				cout << "Valor sem Iva: " << valorSiva << endl;
+				cout << "Valor com Iva: " << valorIva << endl;
+				cout << "Valor total do produto: " << valorTP << endl;
+			}
+			cout << valorTotal << endl;
+			double valorDado;
+			cout << "insira o valor dado: ";
+			cin >> valorDado;
+			double troco = valorDado - valorTotal;
+			cout << "o troco e: " << troco;
+			time_t tempo = time(0); //verificar mais tarde
+			cout << tempo;
+		
 			
 				break;
 		}
