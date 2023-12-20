@@ -1,20 +1,85 @@
-// ComercioLocal.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
+#include "logs.h"
+#include "produtos.h"
 #include <iostream>
+
+using namespace std;
+
+static string** produtos = new string*[0];
+static int quantidadeProdutos = 0;
+
+static unsigned int idProduto = 0;
 
 int main()
 {
-    std::cout << "Hello World!\n";
+		int opcao = 0;
+
+		while (opcao != 5)
+		{
+		cout << "1 - Adicionar produto" << endl;
+		cout << "2 - Remover produto" << endl;
+		cout << "3 - Editar produto" << endl;
+		cout << "4 - Listar produtos" << endl;
+		cout << "Digite uma opcao: ";
+		cin >> opcao;
+
+		switch (opcao)
+		{
+		case 1:
+		{
+			string nome;
+			float preco;
+			int quantidade;
+
+			cout << "Digite o nome do produto: ";
+			cin >> nome;
+			cout << "Digite o preco do produto: ";
+			cin >> preco;
+			cout << "Digite a quantidade do produto: ";
+			cin >> quantidade;
+
+			produtos = adicionarProduto(produtos, &quantidadeProdutos, idProduto, nome, preco, quantidade);
+			idProduto++;
+			break;
+		}
+		case 2:
+		{
+			int idProduto;
+
+			cout << "Digite o ID do produto: ";
+			cin >> idProduto;
+
+			produtos = removerProduto(produtos, &quantidadeProdutos, idProduto);
+			break;
+		}
+		case 3:
+		{
+			int idProduto;
+			string nome;
+			float preco;
+			int quantidade;
+
+			cout << "Digite o ID do produto: ";
+			cin >> idProduto;
+			cout << "Digite o nome do produto: ";
+			cin >> nome;
+			cout << "Digite o preco do produto: ";
+			cin >> preco;
+			cout << "Digite a quantidade do produto: ";
+			cin >> quantidade;
+
+			editarProduto(produtos, &quantidadeProdutos, idProduto, nome, preco, quantidade);
+			break;
+		}
+		case 4:
+		{
+			listarProdutos(produtos, quantidadeProdutos);
+			break;
+		}
+		default:
+			cout << "Opcao invalida!" << endl;
+			break;
+		}
+	}
+
+	return 0;	
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
