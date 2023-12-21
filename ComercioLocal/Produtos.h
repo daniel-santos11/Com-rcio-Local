@@ -5,11 +5,13 @@
 
 using namespace std;
 
-string** adicionarProduto(string** produtos, int* quantidadeProdutos, int idProduto, string nome, float preco, int quantidade);
-string** removerProduto(string** produtos, int* quantidadeProdutos, int idProduto);
-void editarProduto(string** produtos, int* quantidadeProdutos, int idProduto, string nome, float preco, int quantidade);
-void listarProdutos(string** produtos, int quantidadeProdutos);
-string* encontrarProduto(string** produtos, int quantidadeProdutos, int idProduto);
-void liberarMemoria(string** produtos, int quantidadeProdutos);
+void adicionarProduto(string nome, double preco, int quantidade);
+void removerProduto(int idProduto);
+void editarProduto(int idProduto, string nome, double preco, int quantidade);
+void adicionarStock(int idProduto, int quantidade);
+void removerStock(int idProduto, int quantidade);
+// Adicionar campos de pesquisa
+void listarProdutos();
+string* encontrarProduto(int idProduto);
 
-#endif // !PRODUTOS_H
+#endif

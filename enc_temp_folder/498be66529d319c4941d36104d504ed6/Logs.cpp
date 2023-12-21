@@ -45,7 +45,7 @@ void logTitulo(string message)
 
 void espera() {
 	if (logAtivo)
-		this_thread::sleep_for(chrono::milliseconds(750));
+		this_thread::sleep_for(chrono::milliseconds(500));
 }
 
 void ativarLog() {
