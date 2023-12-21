@@ -187,9 +187,7 @@ void iniciarCompra() {
 	logTitulo("Descritivo");
 	double total = calcularTotaisCarrinho();
 
-	// sorteio
 	
-	//validar 
 	string valorDado;
 	cout << "insira o valor dado: ";
 	cin >> valorDado;

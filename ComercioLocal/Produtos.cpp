@@ -113,7 +113,7 @@ void listarProdutos()
 	{
 		cout << setw(5) << setfill('0') << produtos[i][0] << "\t";
 		cout << produtos[i][1].insert(produtos[i][1].size(), 16 - produtos[i][1].size(), ' ') << "\t";
-		cout << ceil(100 * stod(produtos[i][2])) / 100 << "\t";
+		cout << (ceil(100 * stod(produtos[i][2])) / 100) * 1.30 << "\t";
 		cout << produtos[i][3] << endl;
 	}
 	cout << endl << "Total: " << quantidadeProdutos << " produtos distintos" << endl;

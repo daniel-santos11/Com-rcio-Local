@@ -8,7 +8,8 @@ using namespace std;
 void menuPrincipal();
 void menuAdicionarProduto();
 void menuRemoverProduto();
-//void menuComprarProduto();
+void atualizarStock();
+void iniciarCompra();
 void menuListarProdutos();
 
 void bootstrap();

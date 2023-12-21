@@ -142,6 +142,7 @@ using namespace std;
 
 int main(void)
 {
+	bootstrap();
 	menuPrincipal();
 	return 0;
 }
