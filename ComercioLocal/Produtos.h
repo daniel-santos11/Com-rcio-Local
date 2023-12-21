@@ -11,5 +11,6 @@ void editarProduto(string** produtos, int* quantidadeProdutos, int idProduto, st
 void listarProdutos(string** produtos, int quantidadeProdutos);
 string* encontrarProduto(string** produtos, int quantidadeProdutos, int idProduto);
 void liberarMemoria(string** produtos, int quantidadeProdutos);
+void atualizarStock(string** produtos, int* quantidadeProdutos, int idProduto, int quantidade);
 
 #endif // !PRODUTOS_H

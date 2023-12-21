@@ -19,6 +19,7 @@ int main()
 		cout << "2 - Remover produto" << endl;
 		cout << "3 - Editar produto" << endl;
 		cout << "4 - Listar produtos" << endl;
+		cout << "5 - Sair" << endl;
 		cout << "Digite uma opcao: ";
 		cin >> opcao;
 
@@ -26,6 +27,7 @@ int main()
 		{
 		case 1:
 		{
+			logTitulo("Adicionar produto");
 			string nome;
 			float preco;
 			int quantidade;
@@ -43,6 +45,7 @@ int main()
 		}
 		case 2:
 		{
+			logTitulo("Remover produto");
 			int idProduto;
 
 			cout << "Digite o ID do produto: ";
@@ -53,6 +56,7 @@ int main()
 		}
 		case 3:
 		{
+			logTitulo("Editar produto");
 			int idProduto;
 			string nome;
 			float preco;
@@ -72,11 +76,18 @@ int main()
 		}
 		case 4:
 		{
+			logTitulo("Listar produtos");
 			listarProdutos(produtos, quantidadeProdutos);
 			break;
 		}
+		case 5:
+		{
+			logTitulo("Sair");
+			liberarMemoria(produtos, quantidadeProdutos);
+			break;
+		}
 		default:
-			cout << "Opcao invalida!" << endl;
+			logErro("Opcao invalida!");
 			break;
 		}
 	}

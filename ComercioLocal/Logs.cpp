@@ -23,3 +23,10 @@ void logSucesso(string message)
 {
 	cout << "[SUCESSO] " << message << endl;
 }
+
+void logTitulo(string title)
+{
+	cout << endl << "==============================" << endl;
+	cout << title << endl;
+	cout << "==============================" << endl << endl;	
+}	

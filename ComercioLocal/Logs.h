@@ -9,5 +9,6 @@ void logInfo(string message);
 void logErro(string message);
 void logAviso(string message);
 void logSucesso(string message);
+void logTitulo(string title);
 
 #endif

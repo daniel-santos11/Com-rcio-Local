@@ -7,16 +7,16 @@ using namespace std;
 
 string** adicionarProduto(string** produtos, int* quantidadeProdutos, int idProduto, string nome, float preco, int quantidade)
 {
-	string **produtosNovos = new string*[*quantidadeProdutos + 1];
+	string** produtosNovos = new string *[(*quantidadeProdutos) + 1];
 
 	for (int i = 0; i < *quantidadeProdutos; i++)
 		produtosNovos[i] = produtos[i];
 
-	produtosNovos[*quantidadeProdutos] = new string[4];
-	produtosNovos[*quantidadeProdutos][0] = to_string(idProduto);
-	produtosNovos[*quantidadeProdutos][1] = nome;
-	produtosNovos[*quantidadeProdutos][2] = to_string(preco);
-	produtosNovos[*quantidadeProdutos][3] = to_string(quantidade);
+		produtosNovos[*quantidadeProdutos] = new string[4];
+		produtosNovos[*quantidadeProdutos][0] = to_string(idProduto);
+		produtosNovos[*quantidadeProdutos][1] = nome;
+		produtosNovos[*quantidadeProdutos][2] = to_string(preco);
+		produtosNovos[*quantidadeProdutos][3] = to_string(quantidade);
 
 	liberarMemoria(produtos, *quantidadeProdutos);
 	*quantidadeProdutos += 1;
@@ -48,6 +48,12 @@ void editarProduto(string** produtos, int* quantidadeProdutos, int idProduto, st
 
 		}
 	}
+}
+
+void atualizarStock(string** produtos, int* quantidadeProdutos, int idProduto, int quantidade)
+{
+	string * produto = encontrarProduto(produtos, *quantidadeProdutos, idProduto);
+	editarProduto(produtos, quantidadeProdutos, idProduto, produto[1], stof(produto[2]), stoi(produto[3]) + quantidade);
 }
 
 void listarProdutos(string** produtos, int quantidadeProdutos)
