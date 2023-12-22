@@ -12,15 +12,16 @@ void menuPrincipal() {
 	char opcao;
 	do {
 		system("cls");
+		logMarca();
 		logTitulo("Menu Principal");
-		cout << "1. Adicionar produto" << endl;
-		cout << "2. Remover produto" << endl;
-		cout << "3. Atualizar Stock" << endl;
-		cout << "4. Listar produtos" << endl;
-		cout << "5. Iniciar compra" << endl;
-		cout << "0. Sair" << endl;
+		cout << "\t1. Adicionar produto" << endl;
+		cout << "\t2. Remover produto" << endl;
+		cout << "\t3. Atualizar Stock" << endl;
+		cout << "\t4. Listar produtos" << endl;
+		cout << "\t5. Iniciar compra" << endl;
+		cout << "\t0. Sair" << endl << endl;
 
-		cout << "Escolha uma opcao: ";
+		cout << "Escolha uma opcao (0 - 5): ";
 		cin >> opcao;
 
 		switch (opcao)
@@ -187,12 +188,22 @@ void iniciarCompra() {
 	logTitulo("Descritivo");
 	double total = calcularTotaisCarrinho();
 
-	// sorteio
-	
-	//validar 
+
 	string valorDado;
-	cout << "insira o valor dado: ";
-	cin >> valorDado;
+	do {		
+		cout << "Insira o valor pago pelo cliente: ";
+		cin >> valorDado;
+
+		if (!isPosInt(valorDado))
+			logErro("Valor invalido!");
+		else if (stoi(valorDado) < total)
+			logErro("Valor insuficiente!");
+
+	} while(!isPosInt(valorDado) && stoi(valorDado) < total);
+
+	double troco = stoi(valorDado) - total;
+
+
 	//double troco = valorDado - valorTotal;
 	//cout << "o troco e: " << troco;
 	//atualizarStock

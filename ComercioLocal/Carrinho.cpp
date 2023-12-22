@@ -93,4 +93,9 @@ int encontrarProdutoCarrinho(int idProduto) {
 	return -1;
 }
 
+int proximaFatura()
+{
+
+}
+
 

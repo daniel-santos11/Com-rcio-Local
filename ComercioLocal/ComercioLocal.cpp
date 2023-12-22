@@ -91,7 +91,7 @@ using namespace std;
 //		//		cin >> qtd;
 //		//		if (qtd > stoi(produto[3]))
 //		//		{
-//		//			cout << "a quantidade em stock deste produto é : " << produto[3];
+//		//			cout << "a quantidade em stock deste produto ï¿½ : " << produto[3];
 //		//			continue;
 //		//		}
 //		//		carrinho[tam] = new string[4];
@@ -142,6 +142,7 @@ using namespace std;
 
 int main(void)
 {
+		
 	bootstrap();
 	menuPrincipal();
 	return 0;
