@@ -12,6 +12,7 @@ int encontrarProdutoCarrinho(int idProduto);
 double calcularTotaisCarrinho();
 bool sortearCompra();
 void resetCarrinho();
-void imprimirFatura(double valorDado, double valorTotal, int nif);
+void imprimirFatura(double valorDado, int nif);
+void confirmarCompra();
 
 #endif

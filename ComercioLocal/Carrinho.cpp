@@ -4,6 +4,8 @@
 #include "carrinhos.h"
 #include <iostream>
 #include <string>
+#include <math.h>
+#include <iomanip>
 
 
 
@@ -80,7 +82,7 @@ double  calcularTotaisCarrinho() {
 		else
 		{
 			cout << "/***********************************/" << endl;
-			cout << "Total: \t\t" << valorTotal << endl;
+			cout << "Valor a Pagar: \t\t" << valorTotal << endl;
 		}
 	}
 	return valorTotal;
@@ -102,10 +104,41 @@ bool sortearCompra() {
 	return false;
 }
 
-void imprimirFatura(double valorDado, double valorTotal, int nif)
+void imprimirFatura(double valorDado, int nif)
 {
-	double troco = valorDado - valorTotal;
-	cout << "O troco e: " << troco << nif << endl;
+	confirmarCompra();
+	system("cls");
+	cout << "/***********************************/" << endl;
+	logTitulo("Fatura");
+	cout << "Data: " << time(0) << endl;
+	cout << "NIF: " << nif << endl;
+	cout << "N. Fatura: " << nfatura++ << endl;
+	cout << "Detalhe: " << endl;
+
+	double valorTotal = calcularTotaisCarrinho();
+	// Foi sorteado o premio com desconto de 100%
+	if (valorDado == 0)
+	{
+		cout << "Desconto: " << valorTotal << endl;
+		cout << "Troco: " << 0 << endl;
+		cout << "Obrigado pela sua preferencia!" << endl;
+		cout << "/***********************************/" << endl;
+		return;
+	}
+
+	int troco = int(valorDado * 100) - int(valorTotal * 100);
+
+	cout << "Valor recebido: " << valorDado << endl;
+	cout << setprecision(2) << fixed << "O troco: " << (double)troco / 100 << nif << endl;
+	cout << "Obrigado pela sua preferencia!" << endl;
+	cout << "/***********************************/" << endl;
+}
+
+void confirmarCompra() {
+	for (int i = 0; i < tamanhoCarrinho; i++) {
+		removerStock(stoi(carrinho[i][0]), stoi(carrinho[i][3]));
+	
+	}
 }
 
 void resetCarrinho() {

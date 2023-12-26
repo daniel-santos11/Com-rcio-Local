@@ -191,29 +191,33 @@ void iniciarCompra() {
 	if (sortearCompra() == true)
 	{
 		logInfo("O cliente tem direito a um desconto de 100%!");
-		return imprimirFatura(0.0, total, stoi(nif));
+		espera();
+
+		imprimirFatura(0.0, stoi(nif));
 	}
+	else {
+		string valorDado;
+		do {		
+			cout << "Insira o valor pago pelo cliente: ";
+			cin >> valorDado;
 
-	string valorDado;
-	do {		
-		cout << "Insira o valor pago pelo cliente: ";
-		cin >> valorDado;
+			if (!isPosInt(valorDado))
+				logErro("Valor invalido!");
+			else if (stoi(valorDado) < total)
+				logErro("Valor insuficiente!");
 
-		if (!isPosInt(valorDado))
-			logErro("Valor invalido!");
-		else if (stoi(valorDado) < total)
-			logErro("Valor insuficiente!");
+		} while(!isPosInt(valorDado) || stoi(valorDado) < total);
 
-	} while(!isPosInt(valorDado) && stoi(valorDado) < total);
-
-	imprimirFatura(stod(valorDado), total, stoi(nif));
-	//verificar mais tarde
-
-	//double troco = valorDado - valorTotal;
-	//cout << "o troco e: " << troco;
-	//atualizarStock
-	//time_t tempo = time(0); //verificar mais tarde
-	//cout << tempo;
+		imprimirFatura(stod(valorDado), stoi(nif));
+	}
+	char sair;
+	do
+	{
+		cout << endl << "Pressione 0 para voltar ao menu principal: ";
+		cin >> sair;
+		cout << endl;
+	} while (sair != '0');
+	resetCarrinho();
 }
 
 
