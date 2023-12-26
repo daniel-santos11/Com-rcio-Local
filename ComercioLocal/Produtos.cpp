@@ -10,19 +10,19 @@ static const size_t TAMANHO_PRODUTO = 4;
 static const size_t MAX_PRODUTOS = 250;
 static string** produtos = new string * [MAX_PRODUTOS];
 static int quantidadeProdutos = 0;
-static int idProduto = 1;
+static int idProximoProduto = 1;
 
 void adicionarProduto(string nome, double preco, int quantidade)
 {
-	produtos[quantidadeProdutos] = new string[4];
-	produtos[quantidadeProdutos][0] = to_string(idProduto);
+	produtos[quantidadeProdutos] = new string[TAMANHO_PRODUTO];
+	produtos[quantidadeProdutos][0] = to_string(idProximoProduto);
 	produtos[quantidadeProdutos][1] = nome;
 	produtos[quantidadeProdutos][2] = to_string(preco);
 	produtos[quantidadeProdutos][3] = to_string(quantidade);
 
 	quantidadeProdutos++;
-	idProduto++;
-	logSucesso("Produto com o ID " + to_string(idProduto) + " adicionado com sucesso!");
+	idProximoProduto++;
+	logSucesso("Produto com o ID " + to_string(idProximoProduto) + " adicionado com sucesso!");
 }
 
 void removerProduto(int idProduto)

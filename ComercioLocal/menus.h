@@ -16,6 +16,4 @@ void bootstrap();
 bool isPosInt(string s);
 bool isDouble(string s);
 
-
-
 #endif

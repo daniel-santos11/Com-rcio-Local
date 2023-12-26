@@ -188,6 +188,11 @@ void iniciarCompra() {
 	logTitulo("Descritivo");
 	double total = calcularTotaisCarrinho();
 
+	if (sortearCompra() == true)
+	{
+		logInfo("O cliente tem direito a um desconto de 100%!");
+		return imprimirFatura(0.0, total, stoi(nif));
+	}
 
 	string valorDado;
 	do {		
@@ -201,20 +206,14 @@ void iniciarCompra() {
 
 	} while(!isPosInt(valorDado) && stoi(valorDado) < total);
 
-	double troco = stoi(valorDado) - total;
-
+	imprimirFatura(stod(valorDado), total, stoi(nif));
+	//verificar mais tarde
 
 	//double troco = valorDado - valorTotal;
 	//cout << "o troco e: " << troco;
 	//atualizarStock
 	//time_t tempo = time(0); //verificar mais tarde
 	//cout << tempo;
-
-
-}
-
-void imprimirFatura() {
-
 }
 
 
@@ -235,7 +234,7 @@ void menuListarProdutos()
 
 bool isPosInt(string s)
 {
-	for (int i = 0; i < s.length(); i++)
+	for (size_t i = 0; i < s.length(); i++)
 		if (isdigit(s[i]) == false)
 			return false;
 
@@ -245,7 +244,7 @@ bool isPosInt(string s)
 bool isDouble(string s)
 {
 	int pontos = 0;
-	for (int i = 0; i < s.length(); i++)
+	for (size_t i = 0; i < s.length(); i++)
 	{
 		if (s[i] == '.')
 			pontos++;

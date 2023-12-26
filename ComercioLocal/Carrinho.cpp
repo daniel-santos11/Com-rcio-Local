@@ -5,6 +5,8 @@
 #include <iostream>
 #include <string>
 
+
+
 using namespace std;
 
 // nfatura => autoincremento
@@ -32,7 +34,7 @@ void adicionarProdutoCarrinho(int idProduto, int qtd) {
 			logErro("Nao ha stock suficiente para adicionar " + to_string(qtd) + " unidades do produto " + produto[0]);
 			return;
 		}
-		carrinho[posicao][3] = novoTamanho;
+		carrinho[posicao][3] = to_string(novoTamanho);
 		return;
 	}
 	else
@@ -93,9 +95,21 @@ int encontrarProdutoCarrinho(int idProduto) {
 	return -1;
 }
 
-int proximaFatura()
-{
-
+bool sortearCompra() {
+	int sorteio = rand() % 100 + 1;
+	if (sorteio <= 10)
+		return true;
+	return false;
 }
 
+void imprimirFatura(double valorDado, double valorTotal, int nif)
+{
+	double troco = valorDado - valorTotal;
+	cout << "O troco e: " << troco << nif << endl;
+}
 
+void resetCarrinho() {
+	do {
+		delete[] carrinho[--tamanhoCarrinho];
+	} while (tamanhoCarrinho != 0);
+}
