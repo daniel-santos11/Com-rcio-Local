@@ -100,7 +100,7 @@ int encontrarProdutoCarrinho(int idProduto) {
 
 bool sortearCompra() {
 	int sorteio = rand() % 100 + 1;
-	if (sorteio <= 10)
+	if (sorteio <= 25)
 		return true;
 	return false;
 }

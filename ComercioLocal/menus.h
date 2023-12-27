@@ -11,7 +11,6 @@ void menuRemoverProduto();
 void atualizarStock();
 void iniciarCompra();
 void menuListarProdutos();
-
 void bootstrap();
 bool isPosInt(string s);
 bool isDouble(string s);

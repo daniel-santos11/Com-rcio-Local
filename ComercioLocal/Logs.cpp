@@ -43,6 +43,11 @@ void logTitulo(string message)
 
 }
 
+void logBold(string message)
+{
+	cout << "\033[1m" << message << "\033[0m" << endl;
+}
+
 void espera() {
 	if (logAtivo)
 		this_thread::sleep_for(chrono::milliseconds(750));

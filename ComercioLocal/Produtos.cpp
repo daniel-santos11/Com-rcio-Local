@@ -107,11 +107,14 @@ void removerStock(int idProduto, int quantidade)
 
 void listarProdutos()
 {
-	cout << "ID\tNome\t\t\tPreco\tQuantidade" << endl;
+	logBold("ID\tNome\t\t\tPreco\tQuantidade");
+
+	cout << setprecision(2) << fixed;
 
 	for (int i = 0; i < quantidadeProdutos; i++)
 	{
-		cout << setw(5) << setfill('0') << produtos[i][0] << "\t";
+		logBold(produtos[i][0]);
+		cout << "\t";
 		cout << produtos[i][1].insert(produtos[i][1].size(), 16 - produtos[i][1].size(), ' ') << "\t";
 		cout << (ceil(100 * stod(produtos[i][2])) / 100) * 1.30 << "\t";
 		cout << produtos[i][3] << endl;

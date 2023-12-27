@@ -10,7 +10,6 @@ void removerProduto(int idProduto);
 void editarProduto(int idProduto, string nome, double preco, int quantidade);
 void adicionarStock(int idProduto, int quantidade);
 void removerStock(int idProduto, int quantidade);
-// Adicionar campos de pesquisa
 void listarProdutos();
 string* encontrarProduto(int idProduto);
 
