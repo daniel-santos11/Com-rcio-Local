@@ -6,6 +6,7 @@
 #include <string>
 #include <math.h>
 #include <iomanip>
+#include <ctime>
 
 
 
@@ -19,6 +20,20 @@ static int nfatura = 0;
 static string** carrinho = new string * [MAX_PRODUTOS_CARRINHO];
 static int tamanhoCarrinho = 0;
 
+
+string getTime()
+{
+	time_t rawtime;
+	tm timeinfo;
+	char buffer[80];
+
+	time(&rawtime);
+	localtime_s(&timeinfo, &rawtime);
+
+	strftime(buffer, sizeof(buffer), "%d-%m-%Y %H:%M:%S", &timeinfo);
+	string str(buffer);
+	return str;
+}
 
 void adicionarProdutoCarrinho(int idProduto, int qtd) {
 	string* produto = encontrarProduto(idProduto);
@@ -113,7 +128,8 @@ void imprimirFatura(double valorDado, int nif)
 	cout << "/************* Fatura **************/" << endl;
 	cout << "/***********************************/" << endl << endl;
 
-	cout << "Data: " << time(0) << endl;
+
+	cout << "Data: " << getTime() << endl;
 	cout << "NIF: " << nif << endl;
 	cout << "N. Fatura: " << nfatura++ << endl;
 	cout << "Detalhe: " << endl;
