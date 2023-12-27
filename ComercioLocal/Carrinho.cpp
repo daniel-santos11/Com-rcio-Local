@@ -64,15 +64,16 @@ double  calcularTotaisCarrinho() {
 		return 0;
 	}
 	double valorTotal = 0;
+	cout << setprecision(2) << fixed;
 	for (int i = 0; i < tamanhoCarrinho; i++)
 	{
 		cout << carrinho[i][0] << ": " << carrinho[i][1] << endl;
 		int qtd = stoi(carrinho[i][3]);
 		cout << "Quantidade: \t" << qtd << endl;
 		double preco = stod(carrinho[i][2]);
-		cout << "Preco s/Iva:\t" << preco << " uni\t" << preco * qtd << endl;
+		cout << "Preco s/Iva:\t" << preco << " /uni\t" << preco * qtd << endl;
 		double valorIva = ceil((preco * IVA) * 100) / 100;
-		cout << "Preco c/Iva:\t" << valorIva << " uni\t" << valorIva * qtd << endl;
+		cout << "Preco c/Iva:\t" << valorIva << " /uni\t" << valorIva * qtd << endl;
 
 		valorTotal += valorIva * qtd;
 
@@ -108,15 +109,17 @@ void imprimirFatura(double valorDado, int nif)
 {
 	confirmarCompra();
 	system("cls");
-	cout << "/***********************************/" << endl;
-	logTitulo("Fatura");
+	cout << "/***********************************/" << endl; 
+	cout << "/************* Fatura **************/" << endl;
+	cout << "/***********************************/" << endl << endl;
+
 	cout << "Data: " << time(0) << endl;
 	cout << "NIF: " << nif << endl;
 	cout << "N. Fatura: " << nfatura++ << endl;
 	cout << "Detalhe: " << endl;
 
 	double valorTotal = calcularTotaisCarrinho();
-	// Foi sorteado o premio com desconto de 100%
+
 	if (valorDado == 0)
 	{
 		cout << "Desconto: " << valorTotal << endl;
@@ -126,10 +129,11 @@ void imprimirFatura(double valorDado, int nif)
 		return;
 	}
 
-	int troco = int(valorDado * 100) - int(valorTotal * 100);
+	double troco = valorDado - valorTotal;
 
 	cout << "Valor recebido: " << valorDado << endl;
-	cout << setprecision(2) << fixed << "O troco: " << (double)troco / 100 << nif << endl;
+	cout << setprecision(2) << fixed;
+	cout << "O troco: " << troco << endl;
 	cout << "Obrigado pela sua preferencia!" << endl;
 	cout << "/***********************************/" << endl;
 }

@@ -14,12 +14,13 @@ void menuPrincipal() {
 		system("cls");
 		logMarca();
 		logTitulo("Menu Principal");
-		cout << "\t1. Adicionar produto" << endl;
+		cout << "\t1. Adicionar produto" << "\033[0m" << endl;
 		cout << "\t2. Remover produto" << endl;
 		cout << "\t3. Atualizar Stock" << endl;
 		cout << "\t4. Listar produtos" << endl;
 		cout << "\t5. Iniciar compra" << endl;
 		cout << "\t0. Sair" << endl << endl;
+	
 
 		cout << "Escolha uma opcao (0 - 5): ";
 		cin >> opcao;
