@@ -2,18 +2,40 @@
 #define LOGS_H
 
 #include <string>
+#include "produtos.h"
 
 using namespace std;
 
-void logInfo(string message);
-void logErro(string message);
-void logAviso(string message);
-void logSucesso(string message);
-void logTitulo(string message);
-void logBold(string message);
+void setColor(int color);
+
+void resetColor();
+
+void logMenu(const string *opcoes, int tamanho);
+
+void logInfo(const string &message, bool esperar);
+
+void logErro(const string &message);
+
+void logAviso(const string &message);
+
+void logSucesso(const string &message);
+
+void logTitulo(const string &message);
+
+void logTabela(const TProduto *produtos, int tamanho);
+
+void logFatura(const TProduto *produtos, int tamanho, double valorDado, int nif, int nFatura);
+
 void logMarca();
+
 void espera();
+
+string getTime();
+
+string doubleParaString(double valor);
+
 void ativarLog();
 
+void limparEcra();
 
 #endif

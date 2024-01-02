@@ -131,11 +131,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Carrinho.cpp" />
-    <ClCompile Include="ComercioLocal.cpp" />
-    <ClCompile Include="Logs.cpp" />
-    <ClCompile Include="Menus.cpp" />
-    <ClCompile Include="Produtos.cpp" />
+    <ClCompile Include="carrinhos.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="logs.cpp" />
+    <ClCompile Include="menus.cpp" />
+    <ClCompile Include="produtos.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="carrinhos.h" />

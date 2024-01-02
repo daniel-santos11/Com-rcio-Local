@@ -3,122 +3,137 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <cmath>
+#include <utility>
 
 using namespace std;
 
 static const size_t TAMANHO_PRODUTO = 4;
 static const size_t MAX_PRODUTOS = 250;
-static string** produtos = new string * [MAX_PRODUTOS];
+static string **produtos = new string *[MAX_PRODUTOS];
 static int quantidadeProdutos = 0;
 static int idProximoProduto = 1;
+static double MARIGIN_LUCRO = 1.30;
+static double IVA = 1.23;
 
-void adicionarProduto(string nome, double preco, int quantidade)
-{
-	produtos[quantidadeProdutos] = new string[TAMANHO_PRODUTO];
-	produtos[quantidadeProdutos][0] = to_string(idProximoProduto);
-	produtos[quantidadeProdutos][1] = nome;
-	produtos[quantidadeProdutos][2] = to_string(preco);
-	produtos[quantidadeProdutos][3] = to_string(quantidade);
 
-	quantidadeProdutos++;
-	idProximoProduto++;
-	logSucesso("Produto com o ID " + to_string(idProximoProduto) + " adicionado com sucesso!");
+void adicionarProduto(string nome, double preco, int quantidade) {
+    produtos[quantidadeProdutos] = new string[TAMANHO_PRODUTO];
+    produtos[quantidadeProdutos][0] = to_string(idProximoProduto);
+    produtos[quantidadeProdutos][1] = std::move(nome);
+    produtos[quantidadeProdutos][2] = to_string(round(preco * 100) / 100);
+    produtos[quantidadeProdutos][3] = to_string(quantidade);
+
+    quantidadeProdutos++;
+    idProximoProduto++;
+    logSucesso("O produto com o ID " + to_string(idProximoProduto) + " adicionado!");
 }
 
-void removerProduto(int idProduto)
-{
-	for (int i = 0; i < quantidadeProdutos; i++)
-	{
-		if (produtos[i][0] == to_string(idProduto))
-		{
-			delete[] produtos[i];
-			for (int j = i; j < quantidadeProdutos - 1; j++)
-			{
-				produtos[j] = produtos[j + 1];
-			}
-			quantidadeProdutos--;
-			logSucesso("Produto com o ID " + to_string(idProduto) + " removido com sucesso!");
-			return;
-		}
-	}
-
-	logErro("Produto com o ID " + to_string(idProduto) + " nao encontrado!");
+bool removerProduto(int idProduto) {
+    for (int i = 0; i < quantidadeProdutos; i++) {
+        if (produtos[i][0] == to_string(idProduto)) {
+            delete[] produtos[i];
+            for (int j = i; j < quantidadeProdutos - 1; j++) {
+                produtos[j] = produtos[j + 1];
+            }
+            quantidadeProdutos--;
+            logSucesso("O produto com o ID " + to_string(idProduto) + " removido com sucesso!");
+            return true;
+        }
+    }
+    logErro("O produto com o ID " + to_string(idProduto) + " nao removido!");
+    return false;
 }
 
 
+bool editarProduto(const int idProduto, const string &nome, const double preco, int quantidade) {
+    for (int i = 0; i < quantidadeProdutos; i++) {
+        if (produtos[i][0] == to_string(idProduto)) {
+            produtos[i][1] = nome;
+            produtos[i][2] = to_string(preco);
+            produtos[i][3] = to_string(quantidade);
+            return true;
+        }
+    }
+    return false;
+}
 
-void editarProduto(int idProduto, string nome, double preco, int quantidade)
-{
-	for (int i = 0; i < quantidadeProdutos; i++)
-	{
-		if (produtos[i][0] == to_string(idProduto))
-		{
-			produtos[i][1] = nome;
-			produtos[i][2] = to_string(preco);
-			produtos[i][3] = to_string(quantidade);
-			logSucesso("Produto com o ID " + to_string(idProduto) + " editado com sucesso!");
-			return;
-		}
-	}
+string *encontrarProduto(int idProduto) {
+    for (int i = 0; i < quantidadeProdutos; i++) {
+        if (produtos[i][0] == to_string(idProduto)) {
+            return produtos[i];
+        }
+    }
+    return nullptr;
+}
 
-	logErro("Produto com o ID " + to_string(idProduto) + " nao encontrado!");
+void adicionarStock(int idProduto, int quantidade) {
+    string *produto = encontrarProduto(idProduto);
+    if (!produto) {
+        logErro("O produto com o ID " + to_string(idProduto) + " nao encontrado!");
+        return;
+    }
+    if (editarProduto(idProduto, produto[1], stod(produto[2]), stoi(produto[3]) + quantidade))
+        logSucesso("O stock do produto com o ID " + to_string(idProduto) + " adicionado com sucesso!");
+}
+
+void removerStock(int idProduto, int quantidade) {
+    string *produto = encontrarProduto(idProduto);
+    if (produto == nullptr) {
+        logErro("O produto com o ID " + to_string(idProduto) + " nao encontrado!");
+        return;
+    }
+    int qtd = stoi(produto[3]);
+    if (qtd < quantidade) {
+        logErro("Quantidade de stock insuficiente no produto com o ID " + to_string(idProduto) + "!");
+        return;
+    }
+    if (!editarProduto(idProduto, produto[1], stod(produto[2]), qtd - quantidade))
+        logErro("O stock do produto com o ID " + to_string(idProduto) + " nao removido!");
+}
+
+void atualizarPreco(int idProduto, double preco) {
+    string *produto = encontrarProduto(idProduto);
+    if (produto == nullptr) {
+        logErro("O produto com o ID " + to_string(idProduto) + " nao encontrado!");
+        return;
+    }
+    if (editarProduto(idProduto, produto[1], preco, stoi(produto[3])))
+        logSucesso("O preco do produto com o ID " + to_string(idProduto) + " atualizado com sucesso!");
 
 }
 
-string* encontrarProduto(int idProduto)
-{
-	for (int i = 0; i < quantidadeProdutos; i++)
-	{
-		if (produtos[i][0] == to_string(idProduto))
-		{
-			return produtos[i];
-		}
-	}
-	return NULL;
+TProduto *traduzirTabela(bool compra) {
+    TProduto *produtosTraduzidos = new TProduto[quantidadeProdutos];
+    for (int i = 0; i < quantidadeProdutos; i++) {
+        produtosTraduzidos[i] = {
+                stoi(produtos[i][0]),
+                produtos[i][1],
+                compra ? (double) -1 : stod(produtos[i][2]),
+                stod(produtos[i][2]) * MARIGIN_LUCRO,
+                (stod(produtos[i][2]) * MARIGIN_LUCRO) * IVA,
+                stoi(produtos[i][3]),
+                compra ? 0 : -1
+        };
+    }
+    return produtosTraduzidos;
+
 }
 
-void adicionarStock(int idProduto, int quantidade)
-{
-	string* produto = encontrarProduto(idProduto);
-	if (!produto)
-	{
-		logErro("Produto com o ID " + to_string(idProduto) + " nao encontrado!");
-		return;
-	}
-	editarProduto(idProduto, produto[1], stod(produto[2]), stoi(produto[3]) + quantidade);
+void listarProdutos() {
+    TProduto *produtosTraduzidos = traduzirTabela(false);
+    logTabela(produtosTraduzidos, quantidadeProdutos);
 }
 
-void removerStock(int idProduto, int quantidade)
-{
-	string* produto = encontrarProduto(idProduto);
-	if (produto == NULL)
-	{
-		logErro("Produto com o ID " + to_string(idProduto) + " nao encontrado!");
-		return;
-	}
-	int qtd = stoi(produto[3]);
-	if (qtd < quantidade)
-	{
-		logErro("Quantidade de stock insuficiente no produto com o ID " + to_string(idProduto) + "!");
-		return;
-	}
-	editarProduto(idProduto, produto[1], stod(produto[2]), qtd - quantidade);
+bool nomeExiste(const string &n) {
+    for (int i = 0; i < quantidadeProdutos; i++) {
+        if (produtos[i][1] == n) {
+            return true;
+        }
+    }
+    return false;
 }
 
-void listarProdutos()
-{
-	logBold("ID\tNome\t\t\tPreco\tQuantidade");
-
-	cout << setprecision(2) << fixed;
-
-	for (int i = 0; i < quantidadeProdutos; i++)
-	{
-		logBold(produtos[i][0]);
-		cout << "\t";
-		cout << produtos[i][1].insert(produtos[i][1].size(), 16 - produtos[i][1].size(), ' ') << "\t";
-		cout << (ceil(100 * stod(produtos[i][2])) / 100) * 1.30 << "\t";
-		cout << produtos[i][3] << endl;
-	}
-	cout << endl << "Total: " << quantidadeProdutos << " produtos distintos" << endl;
-
+int qtdProdutos() {
+    return quantidadeProdutos;
 }

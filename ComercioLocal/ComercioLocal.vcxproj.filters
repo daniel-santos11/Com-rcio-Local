@@ -15,19 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ComercioLocal.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Produtos.cpp">
+    <ClCompile Include="produtos.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Logs.cpp">
+    <ClCompile Include="logs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Menus.cpp">
+    <ClCompile Include="menus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Carrinho.cpp">
+    <ClCompile Include="carrinhos.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

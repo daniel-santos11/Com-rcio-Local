@@ -4,275 +4,397 @@
 #include "carrinhos.h"
 #include <iostream>
 #include <string>
+#include <conio.h>
 
 using namespace std;
 
+const size_t MENU_PRINCIPAL_TAMANHO = 5;
+const string *opcoesMenuPrincipal = new string[MENU_PRINCIPAL_TAMANHO]{
+        "Adicionar produto",
+        "Remover produto",
+        "Adicionar Stock",
+        "Listar produtos",
+        "Iniciar compra",
+};
+
+char selecionarMenuPrincipal() {
+    char opcao;
+    bool opcaoValida = false;
+
+    do {
+        opcao = (char) _getch();
+
+        switch (opcao) {
+            case '1':
+                opcaoValida = true;
+                menuAdicionarProduto();
+                break;
+            case '2':
+                opcaoValida = true;
+                menuRemoverProduto();
+                break;
+            case '3':
+                opcaoValida = true;
+                atualizarStock();
+                break;
+            case '4':
+                opcaoValida = true;
+                menuListarProdutos();
+                break;
+            case '5':
+                opcaoValida = true;
+                iniciarCompra();
+                break;
+            case '0':
+                opcaoValida = true;
+                logInfo("Ate a proxima!", true);
+                break;
+            default:
+                logErro("Opcao invalida!");
+                break;
+        }
+    } while (!opcaoValida);
+    return opcao;
+}
+
 void menuPrincipal() {
-
-	char opcao;
-	do {
-		system("cls");
-		logMarca();
-		logTitulo("Menu Principal");
-		cout << "\t1. Adicionar produto" << "\033[0m" << endl;
-		cout << "\t2. Remover produto" << endl;
-		cout << "\t3. Atualizar Stock" << endl;
-		cout << "\t4. Listar produtos" << endl;
-		cout << "\t5. Iniciar compra" << endl;
-		cout << "\t0. Sair" << endl << endl;
-	
-
-		cout << "Escolha uma opcao (0 - 5): ";
-		cin >> opcao;
-
-		switch (opcao)
-		{
-		case '1':
-			menuAdicionarProduto();
-			break;
-		case '2':
-			menuRemoverProduto();
-			break;
-		case '3':
-			atualizarStock();
-			break;
-		case '4':
-			menuListarProdutos();
-			break;
-		case '5':
-			iniciarCompra();
-			break;
-		case '0':
-			return;
-		default:
-			system("cls");
-			logErro("Opcao invalida!");
-
-			break;
-		}
-	} while (opcao != 0);
+    char opcao;
+    do {
+        logMarca();
+        logMenu(opcoesMenuPrincipal, MENU_PRINCIPAL_TAMANHO);
+        opcao = selecionarMenuPrincipal();
+    } while (opcao != '0');
 }
 
-void menuAdicionarProduto()
-{
-	system("cls");
-	logTitulo("Menu Principal");
-	string nome;
-	string sPreco;
-	string sQuantidade;
+void menuAdicionarProduto() {
+    logTitulo("Adicionar Produto");
+    string nome = pedirValidarNome();
+    if (nome.empty())
+        return;
 
-	do
-	{
-		cout << "Digite o nome do produto: ";
-		cin >> nome;
-		if (nome.size() > 30)
-		{
-			logErro("Nome do produto nao pode ter mais de 30 caracteres!");
-		}
-	} while (nome.size() > 30);
+    double preco = pedirValidarValor("Qual o preco de compra do produto?", 0);
+    if (preco == 0)
+        return;
 
-	do
-	{
-		cout << "Digite o preco do produto: ";
-		cin >> sPreco;
-		if (!isDouble(sPreco))
-		{
-			logErro("Preco do produto invalido!");
-		}
-	} while (!isDouble(sPreco));
+    int qtd = pedirValidarQtd("Qual a quantidade do produto");
+    if (qtd == 0)
+        return;
 
-	do
-	{
-		cout << "Digite a quantidade do produto: ";
-		cin >> sQuantidade;
-		if (!isPosInt(sQuantidade))
-		{
-			logErro("Quantidade do produto invalida!");
-		}
+    cout << endl << "Tem a certeza que deseja adicionar o produto '" << nome << "' com o preco de custo " << preco
+         << " e quantidade " << qtd << "? (s/n)" << endl;
 
-	} while (!isPosInt(sQuantidade));
-
-	adicionarProduto(nome, stod(sPreco), stoi(sQuantidade));
+    if (!pedirConfimacao()) {
+        logInfo("Processo cancelado!", true);
+        return;
+    }
+    adicionarProduto(nome, preco, qtd);
 }
 
-void menuRemoverProduto()
-{
-	system("cls");
-	logTitulo("Remover Produto");
-	listarProdutos();
+void menuRemoverProduto() {
+    logTitulo("Remover Produto");
+    listarProdutos();
 
-	string id;
+    int id = pedirValidarIdProduto();
+    if (id == 0)
+        return;
 
-	cout << endl << "Digite o id do produto: ";
-	cin >> id;
-	if (!isPosInt(id))
-		logErro("Id do produto invalido!");
-	else
-		removerProduto(stoi(id));
+    cout << "Tem a certeza que deseja remover o produto com o id " << id << "? (s/n)" << endl;
+    if (!pedirConfimacao()) {
+        logInfo("Processo cancelado!", true);
+        return;
+    }
+    removerProduto(id);
 }
 
-void atualizarStock()
-{
-	system("cls");
-	logTitulo("Atualizar Stock");
+void atualizarStock() {
+    logTitulo("Atualizar Stock");
+    listarProdutos();
 
-	listarProdutos();
+    int id = pedirValidarIdProduto();
+    if (id == 0)
+        return;
 
-	string id;
-	string sQuantidade;
+    int qtd = pedirValidarQtd("Qual a quantidade do produto a adicionar");
+    if (qtd == 0)
+        return;
 
-	cout << endl << "Digite o id do produto: ";
-	cin >> id;
-	if (!isPosInt(id))
-	{
-		logErro("Id do produto invalido!");
-		return;
-	}
+    cout << "Tem a certeza que deseja adicionar " << qtd << " unidades ao produto com o id " << id << "? (s/n)" << endl;
+    if (!pedirConfimacao()) {
+        logInfo("Processo cancelado!", true);
+        return;
+    }
+    adicionarStock(id, qtd);
 
-	cout << "Digite a quantidade a adicionar: ";
-	cin >> sQuantidade;
-	if (!isPosInt(sQuantidade))
-	{
-		logErro("Quantidade do produto invalida!");
-		return;
-	}
-	adicionarStock(stoi(id), stoi(sQuantidade));
+    cout << "Deseja atualizar o preco de compra? (s/n)" << endl;
+    if (!pedirConfimacao()) {
+        logInfo("Processo terminado!", true);
+        return;
+    }
+
+    double preco = pedirValidarValor("Qual o novo preco de compra do produto?", 0);
+    if (preco == 0)
+        return;
+
+    cout << "Tem a certeza que deseja atualizar o preco de compra do produto com o id " << id << " para " << preco
+         << "? (s/n)" << endl;
+    if (!pedirConfimacao()) {
+        logInfo("Processo cancelado!", true);
+        return;
+    }
+    atualizarPreco(id, preco);
+    logInfo("Processo terminado!", true);
 }
 
 void iniciarCompra() {
-	system("cls");
-	logTitulo("Iniciar Compra");
+    double total = 0;
+    while (true) {
+        logTitulo("Menu de Compra");
+        mostrarListaProdutosCarrinho();
+        
+        int id = pedirValidarIdProduto();
+        if (id == 0) {
+            if (!produtosNoCarrinho()) return;
+            else break;
+        }
 
-	cout << endl;
-	// apresentar stock temporario (carrinho)
-	listarProdutos();
-	do
-	{	
-		string qtd, codProduto;	
-		cout << "Insira o codigo do produto: (insira 0 se desejar terminar a compra)" << endl;
-		cin >> codProduto;
+        int qtd;
+        do {
+            qtd = pedirValidarQtd("Quantas unidades deseja adicionar ao carrinho?");
+            if (qtd == 0) {
+                if (!produtosNoCarrinho()) return;
+                else break;
+            }
+        } while (!adicionarProdutoCarrinho(id, qtd));
 
-		if(!isPosInt(codProduto))
-		{
-			logErro("Codigo do produto invalido!");
-			continue;
-		}
-		else if (codProduto == "0")
-		{
-			logInfo("Processo de selecao terminado!");
-			break;
-		}
-		
-		cout << "Insira a quantidade que deseja deste produto: ";
-		cin >> qtd;
-		if (!isPosInt(qtd))
-		{
-			logErro("Quantidade do produto invalida!");
-			continue;
-		}
 
-		adicionarProdutoCarrinho(stoi(codProduto), stoi(qtd));
-	} while (true);
-	
-	string nif;
-	do
-	{
-		cout << "Insira o seu numero de contribuinte: ";
-		cin >> nif;
-		if (!isPosInt(nif))
-			logErro("O Nif contem apenas numeros!");
-		else if(nif.length() != 9)
-			logErro("O Nif tem de conter 9 digitos!");
-	} while (!isPosInt(nif) || nif.length() != 9);
-	
-	system("cls");
-	logTitulo("Descritivo");
-	double total = calcularTotaisCarrinho();
+        logTitulo("Descritivo");
+        total = calcularTotaisCarrinho();
+        if (produtosNoCarrinho()) {
+            cout << "Deseja adicionar mais produtos ao carrinho? (s/n)"
+                 << endl;
+            if (!pedirConfimacao())
+                break;
+        }
+    }
 
-	if (sortearCompra() == true)
-	{
-		logInfo("O cliente tem direito a um desconto de 100%!");
-		espera();
+    int nCliente = pedirValidarNumeroCliente();
 
-		imprimirFatura(0.0, stoi(nif));
-	}
-	else {
-		string valorDado;
-		do {		
-			cout << "Insira o valor pago pelo cliente: ";
-			cin >> valorDado;
-
-			if (!isPosInt(valorDado))
-				logErro("Valor invalido!");
-			else if (stoi(valorDado) < total)
-				logErro("Valor insuficiente!");
-
-		} while(!isPosInt(valorDado) || stoi(valorDado) < total);
-
-		imprimirFatura(stod(valorDado), stoi(nif));
-	}
-	char sair;
-	do
-	{
-		cout << endl << "Pressione 0 para voltar ao menu principal: ";
-		cin >> sair;
-		cout << endl;
-	} while (sair != '0');
-	resetCarrinho();
+    if (sortearCompra()) {
+        logInfo("O cliente tem direito a um desconto de 100%!", true);
+        imprimirFatura(0.0, nCliente);
+    } else {
+        double valorDado = pedirValidarValor("Qual o valor recebido do cliente?", total);
+        if (valorDado > 0)
+            imprimirFatura(valorDado, nCliente);
+        else
+            logInfo("Processo de compra cancelado!", true);
+    }
+    resetCarrinho();
+    aguardarInputSaida();
 }
 
 
-void menuListarProdutos()
-{
-	system("cls");
-	logTitulo("Lista de Produtos");
-	listarProdutos();
+void menuListarProdutos() {
+    logTitulo("Lista de Produtos");
+    listarProdutos();
 
-	char sair;
-	do
-	{
-		cout << endl << "Pressione 0 para voltar ao menu principal: ";
-		cin >> sair;
-		cout << endl;
-	} while (sair != '0');
+    char sair;
+    cout << endl << "Pressione 0 para voltar ao menu principal: " << endl;
+    do {
+        sair = (char) _getch();
+        if (sair != '0')
+            logErro("Opcao invalida!");
+    } while (sair != '0');
 }
 
-bool isPosInt(string s)
-{
-	for (size_t i = 0; i < s.length(); i++)
-		if (isdigit(s[i]) == false)
-			return false;
-
-	return true;
+bool isPosInt(const string &s) {
+    for (char c: s) {
+        if (!isdigit(c))
+            return false;
+    }
+    return true;
 }
 
-bool isDouble(string s)
-{
-	int pontos = 0;
-	for (size_t i = 0; i < s.length(); i++)
-	{
-		if (s[i] == '.')
-			pontos++;
-		else if (isdigit(s[i]) == false)
-			return false;
-	}
+bool isDouble(const string &s) {
+    int pontos = 0;
+    for (char c: s) {
+        if (c == '.')
+            pontos++;
+        else if (isdigit(c) == false)
+            return false;
+    }
 
-	if (pontos > 1)
-		return false;
+    if (pontos > 1)
+        return false;
 
-	return true;
+    return true;
+}
+
+bool validarCasaDecimais(const string &sDouble) {
+    size_t pos = sDouble.find('.');
+    if (pos == string::npos)
+        return true;
+    size_t tamanho = sDouble.substr(pos + 1).length();
+    return tamanho > 0 && tamanho <= 2;
+}
+
+int pedirValidarIdProduto() {
+    bool inputValido;
+    string id;
+    do {
+        inputValido = true;
+        cout << endl << "Qual o id do produto? (0 para sair): ";
+        cin >> id;
+        if (id == "0") {
+            logInfo("Processo cancelado!", true);
+            return 0;
+        } else if (!isPosInt(id)) {
+            logErro("Id do produto invalido!");
+            inputValido = false;
+        } else if (encontrarProduto(stoi(id)) == nullptr) {
+            logErro("Produto com o id " + id + " nao encontrado!");
+            inputValido = false;
+        }
+    } while (!inputValido);
+    return stoi(id);
+}
+
+int pedirValidarQtd(const string &msg) {
+    bool inputValido;
+    string sQuantidade;
+
+    do {
+        inputValido = true;
+        cout << msg << " (0 para sair): ";
+        cin >> sQuantidade;
+        if (sQuantidade == "0") {
+            logInfo("Processo terminado!", true);
+            return 0;
+        } else if (!isPosInt(sQuantidade)) {
+            logErro("A quantida so pode conter numeros!");
+            inputValido = false;
+        } else if (stoi(sQuantidade) < 0) {
+            logErro("A quantidade do produto tem de ser superior a 0!");
+            inputValido = false;
+        }
+    } while (!inputValido);
+
+    return stoi(sQuantidade);
+}
+
+double pedirValidarValor(const string &msg, double min) {
+    string sValor;
+    bool inputValido;
+    do {
+        inputValido = true;
+        cout << msg << " (0 para sair): ";
+        cin >> sValor;
+        if (sValor == "0") {
+            logInfo("Processo cancelado!", true);
+            return 0;
+        } else if (!isDouble(sValor)) {
+            logErro("O valor é invalido!");
+            inputValido = false;
+        } else if (!validarCasaDecimais(sValor)) {
+            logErro("O valor so pode conter 2 casas decimais!");
+            inputValido = false;
+        } else if (stod(sValor) < min) {
+            logErro(min == 0 ? "O valor tem de ser superior a 0!" :
+                    "O valor tem de ser superior a " + doubleParaString(min) + "!");
+            inputValido = false;
+        }
+    } while (!inputValido);
+
+    return stod(sValor);
+}
+
+string pedirValidarNome() {
+    string nome;
+    bool inputValido;
+
+    do {
+        inputValido = true;
+        cout << "Qual o nome do produto (0 para sair): ";
+        cin >> nome;
+        if (nome == "0") {
+            logInfo("Processo cancelado!", true);
+            return "";
+        } else if (nome.size() > 30) {
+            logErro("Nome do produto nao pode conter mais de 30 caracteres!");
+            inputValido = false;
+        } else if (nome.empty()) {
+            logErro("Nome do produto nao pode ser vazio!");
+            inputValido = false;
+        } else if (nomeExiste(nome)) {
+            logErro("Ja existe um produto com o nome '" + nome + "'! Pretende continuar? (s/n)");
+            char opcao;
+            do {
+                opcao = (char) _getch();
+                if (opcao == 's' || opcao == 'S') {
+                    logInfo("Processo cancelado!", true);
+                    break;
+                } else if (opcao == 'n' || opcao == 'N') {
+                    continue;
+                } else {
+                    logErro("Opcao invalida!");
+                }
+            } while (opcao != 'n' && opcao != 'N');
+        }
+    } while (!inputValido);
+    return nome;
+}
+
+int pedirValidarNumeroCliente() {
+    string nif;
+    bool inputValido;
+    do {
+        inputValido = true;
+        cout << "Insira o numero do cliente (NIF): ";
+        cin >> nif;
+        if (!isPosInt(nif)) {
+            logErro("O Nif contem apenas numeros!");
+            inputValido = false;
+        } else if (nif.length() != 9) {
+            logErro("O Nif tem de conter 9 digitos!");
+            inputValido = false;
+        }
+    } while (!inputValido);
+    return stoi(nif);
+}
+
+bool pedirConfimacao() {
+    char opcao;
+    do {
+        opcao = (char) _getch();
+        if (opcao == 's' || opcao == 'S')
+            return true;
+        else if (opcao != 'n' && opcao != 'N')
+            logErro("Opcao invalida!");
+    } while (opcao != 'n' && opcao != 'N');
+    return false;
+}
+
+void aguardarInputSaida() {
+    char sair;
+    do {
+        cout << endl << "Pressione 0 para voltar ao menu principal: ";
+        sair = (char) _getch();
+        cout << endl;
+        if (sair != '0')
+            logErro("Opcao invalida!");
+    } while (sair != '0');
 }
 
 void bootstrap() {
-	adicionarProduto("Coca-Cola", 1.5, 10);
-	adicionarProduto("Pepsi", 1.5, 150);
-	adicionarProduto("Fanta", 1.5, 200);
-	adicionarProduto("Sprite", 1.5, 10);
-	adicionarProduto("7Up", 1.5, 10);
-	adicionarProduto("Sumol", 1.5, 10);
-	adicionarProduto("Agua", 1, 10);
-	adicionarProduto("Ice Tea", 1.5, 10);
-	adicionarProduto("Red Bull", 2, 10);
-	adicionarProduto("Monster", 2, 10);
-	ativarLog();
+    adicionarProduto("Coca-Cola", 1.5, 10);
+    adicionarProduto("Pepsi", 1.5, 150);
+    adicionarProduto("Fanta", 1.5, 200);
+    adicionarProduto("Sprite", 1.5, 10);
+    adicionarProduto("7Up", 1.5, 10);
+    adicionarProduto("Sumol", 1.5, 10);
+    adicionarProduto("Agua", 1, 10);
+    adicionarProduto("Ice Tea", 1.5, 10);
+    adicionarProduto("Red Bull", 2, 10);
+    adicionarProduto("Monster", 2, 10);
+    ativarLog();
 }
