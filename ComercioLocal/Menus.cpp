@@ -293,7 +293,7 @@ double pedirValidarValor(const string &msg, double min) {
             logInfo("Processo cancelado!", true);
             return 0;
         } else if (!isDouble(sValor)) {
-            logErro("O valor é invalido!");
+            logErro("O valor e invalido!");
             inputValido = false;
         } else if (!validarCasaDecimais(sValor)) {
             logErro("O valor so pode conter 2 casas decimais!");
