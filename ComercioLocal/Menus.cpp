@@ -315,7 +315,7 @@ string pedirValidarNome() {
     do {
         inputValido = true;
         cout << "Qual o nome do produto (0 para sair): ";
-        cin >> nome;
+        getline(cin, nome);
         if (nome == "0") {
             logInfo("Processo cancelado!", true);
             return "";
