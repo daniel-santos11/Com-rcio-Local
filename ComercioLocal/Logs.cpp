@@ -321,18 +321,18 @@ void logFaturaProduto(const TProduto &produtos) {
     logCaixaDireita();
 
     logCaixaEsquerda();
-    cout << produtos.precoVenda;
+    cout << "s/Iva: " << produtos.precoVenda;
     logEspaco(TAMANHO_TITULO - 12 - (int) doubleParaString(produtos.precoVenda).length() -
               (int) doubleParaString(produtos.precoVenda * produtos.quantidadeEmCarrinho).length());
-    cout << "s/Iva: " << setprecision(2) << fixed << produtos.precoVenda * produtos.quantidadeEmCarrinho;
+    cout << setprecision(2) << fixed << produtos.precoVenda * produtos.quantidadeEmCarrinho;
     logCaixaDireita();
 
 
     logCaixaEsquerda();
-    cout << produtos.precoVendaIVA;
+    cout << "c/Iva: " << produtos.precoVendaIVA;
     logEspaco(TAMANHO_TITULO - 12 - (int) doubleParaString(produtos.precoVendaIVA).length() -
               (int) doubleParaString(produtos.precoVendaIVA * produtos.quantidadeEmCarrinho).length());
-    cout << "c/Iva: " << setprecision(2) << fixed << produtos.precoVendaIVA * produtos.quantidadeEmCarrinho;
+    cout << setprecision(2) << fixed << produtos.precoVendaIVA * produtos.quantidadeEmCarrinho;
     logCaixaDireita();
 
     logProdFatSep();
