@@ -34,6 +34,11 @@ bool adicionarProdutoCarrinho(int idProduto, int qtd) {
         carrinho[posicao][1] = to_string(novoTamanho);
         logSucesso("O produto  com o ID " + produto[0] + " atualizado no carrinho");
     } else {
+        if (tamanhoCarrinho >= MAX_PRODUTOS_CARRINHO)
+        {
+            logErro("Nao e possivel adicionar mais produtos ao carrinho");
+            return false;
+        }
         if (qtd > stoi(produto[3])) {
             logErro("O produto " + produto[0] + " apenas tem " + produto[3] + " unidades em stock!");
             return false;

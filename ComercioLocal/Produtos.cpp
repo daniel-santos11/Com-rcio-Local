@@ -18,6 +18,12 @@ static double IVA = 1.23;
 
 
 void adicionarProduto(string nome, double preco, int quantidade) {
+    if (quantidadeProdutos >= MAX_PRODUTOS)
+    {
+        logErro("Nao possivel adicionar mais produtos");
+        return;
+    }
+
     produtos[quantidadeProdutos] = new string[TAMANHO_PRODUTO];
     produtos[quantidadeProdutos][0] = to_string(idProximoProduto);
     produtos[quantidadeProdutos][1] = std::move(nome);
