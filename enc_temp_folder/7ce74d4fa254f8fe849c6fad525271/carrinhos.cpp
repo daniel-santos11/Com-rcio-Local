@@ -10,7 +10,7 @@
 
 using namespace std;
 
-static const unsigned int MAX_PRODUTOS_CARRINHO = 250;
+static const unsigned int MAX_PRODUTOS_CARRINHO = 1;
 static int nfatura = 0;
 static string **carrinho = new string *[MAX_PRODUTOS_CARRINHO];
 static int tamanhoCarrinho = 0;

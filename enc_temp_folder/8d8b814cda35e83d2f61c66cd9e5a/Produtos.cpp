@@ -9,7 +9,7 @@
 using namespace std;
 
 static const size_t TAMANHO_PRODUTO = 4;
-static const size_t MAX_PRODUTOS = 250;
+static const size_t MAX_PRODUTOS = 10;
 static string **produtos = new string *[MAX_PRODUTOS];
 static int quantidadeProdutos = 0;
 static int idProximoProduto = 1;

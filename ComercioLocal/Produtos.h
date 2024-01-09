@@ -38,4 +38,6 @@ bool nomeExiste(const string &n);
 
 int qtdProdutos();
 
+bool possivelAdicionar();
+
 #endif
