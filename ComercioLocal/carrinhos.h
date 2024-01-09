@@ -24,4 +24,6 @@ bool produtosNoCarrinho();
 
 void mostrarListaProdutosCarrinho();
 
+bool carrinhoCheio();
+
 #endif

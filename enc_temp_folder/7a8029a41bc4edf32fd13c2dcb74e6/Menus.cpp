@@ -168,7 +168,11 @@ void iniciarCompra() {
 			int id = pedirValidarIdProduto();
 			if (id == 0) {
 				if (!produtosNoCarrinho()) return;
-				else break;
+				else {
+					logTitulo("Descritivo");
+					total = calcularTotaisCarrinho();
+					break;
+				}
 			}
 
 			int qtd;
@@ -190,9 +194,6 @@ void iniciarCompra() {
 				break;
 		}
 	}
-
-	logTitulo("Descritivo");
-	total = calcularTotaisCarrinho();
 
 	int nCliente = pedirValidarNumeroCliente();
 
